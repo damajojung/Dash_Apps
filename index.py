@@ -14,8 +14,9 @@ from apps import vgames, global_sales
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div([
-        dcc.Link('Video Games|', href='/apps/vgames'),
-        dcc.Link('Other Products', href='/apps/global_sales'),
+        dcc.Link('Video Games  |', href='/apps/vgames'),
+        dcc.Link('  Other Products  |', href='/apps/global_sales'),
+        dcc.Link('  Other Products  |', href='/apps/global_sales'),
     ], className="row"),
     html.Div(id='page-content', children=[])
 ])
@@ -33,4 +34,9 @@ def display_page(pathname):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False) # This is a test
+    app.run_server(debug=False)
+
+
+
+#     http://127.0.0.1:8050/
+
