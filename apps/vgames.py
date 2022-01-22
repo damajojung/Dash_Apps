@@ -46,3 +46,4 @@ def display_value(genre_chosen, sales_chosen):
     fig = px.bar(dfv_fltrd, x='Video Game', y=sales_chosen, color='Platform')
     fig = fig.update_yaxes(tickprefix="$", ticksuffix="M")
     return fig
+
