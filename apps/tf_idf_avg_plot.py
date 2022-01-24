@@ -118,11 +118,13 @@ years = ('2018', '2019', '2020', '2021')
 term = 'minderjarig'
 
 values = top_tfidf['tfidf'][top_tfidf['term'] == term]
-
+terms = ['test', 'test1', 'test2']
 
 # ------------------------------------
 
-app.layout = html.Div([
+layout = html.Div([
+    html.H1('Video Games Sales', style={"textAlign": "center"}),
+
     html.Div([
         html.Div(dcc.Dropdown(
             id='y1-dropdown', value='2018', clearable=False,
@@ -130,23 +132,11 @@ app.layout = html.Div([
         ), className='six columns'),
 
         html.Div(dcc.Dropdown(
-            id='y2-dropdown', value='2019', clearable=False,
-            persistence=True, persistence_type='memory',
-            options=[{'label': x, 'value': x} for x in years]
+            id='y2-dropdown', value='test', clearable=False,
+            options=[{'label': x, 'value': x} for x in terms]
         ), className='six columns'),
     ], className='row'),
 
     dcc.Graph(id="line-chart"),
 ])
 
-
-
-app.callback(
-    Output(component_id='line-chart', component_property='figure'),
-    [Input(component_id='pymnt-dropdown', component_property='value'),
-     Input(component_id='country-dropdown', component_property='value')]
-)
-def update_line_chart(continents):
-    fig = px.line(df18, 
-        x="year", y="lifeExp", color='country')
-    return fig
