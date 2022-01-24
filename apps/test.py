@@ -111,6 +111,19 @@ i2w_df = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/i2words_df.c
 
 years = ['2018', '2019', '2020', '2021']
 
+def generate_table(dataframe, max_rows=10):
+    return html.Table([
+        html.Thead(
+            html.Tr([html.Th(col) for col in dataframe.columns])
+        ),
+        html.Tbody([
+            html.Tr([
+                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+            ]) for i in range(min(len(dataframe), max_rows))
+        ])
+    ])
+
+
 
 # --------------------------------------------
 
@@ -128,7 +141,13 @@ layout = html.Div([
             persistence=True, persistence_type='memory',
             options=[{'label': x, 'value': x} for x in years]
         ), className='six columns'),
-    ], className='row')
+    ], className='row'),
+
+    html.H4(children='US Agriculture Exports (2011)'),
+    generate_table(df18)
 ])
+
+
+
 
 
