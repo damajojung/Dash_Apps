@@ -94,10 +94,9 @@ for i in d:
     
     i['lemm_tok'] = test_list
 
-print(df18.shape)
-print(df19.shape)
-print(df20.shape)
-print(df21.shape)
+ds = [df18, df19, df20, df21]
+
+all_dats = pd.concat(ds)
 
 tfidf18 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/topidfs_2018.csv'), index_col=0) 
 tfidf19 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/topidfs_2019.csv'), index_col=0) 
@@ -146,8 +145,3 @@ layout = html.Div([
     html.H4(children='US Agriculture Exports (2011)'),
     generate_table(df18)
 ])
-
-
-
-
-
