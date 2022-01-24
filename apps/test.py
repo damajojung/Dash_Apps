@@ -71,21 +71,42 @@ DATA_PATH = PATH.joinpath("../datasets").resolve()
 
 # owner: shivp Kaggle. Source: https://data.mendeley.com/datasets
 # dataset was modified. Original data: https://www.kaggle.com/shivkp/customer-behaviour
-df = pd.read_csv(DATA_PATH.joinpath("dataset_10012022_cleaned.csv"), index_col=6, parse_dates=['date'])
 
-df['bete'] = df['bewijs'] + df['tll'] 
-df = df[df['bete'] != '[][]']
-df = df.drop(labels=['bewijs', 'tll'], axis=1)
+df18 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/data_2018.csv'), index_col=0) 
+df19 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/data_2019.csv'), index_col=0) 
+df20 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/data_2020.csv'), index_col=0) 
+df21 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/data_2021.csv'), index_col=0) 
 
-df18 = df.loc["2018-01-01 00:00:00":"2018-12-31 00:00:00"]
-df19 = df.loc["2019-01-01 00:00:00":"2019-12-31 00:00:00"]
-df20 = df.loc["2020-01-01 00:00:00":"2020-12-31 00:00:00"]
-df21 = df.loc["2021-01-01 00:00:00":"2021-12-31 00:00:00"]
+convert_dict = {'lemm': str,
+                'year': str}
+  
+df18 = df18.astype(convert_dict)
+df19 = df19.astype(convert_dict)
+df20 = df20.astype(convert_dict)
+df21 = df21.astype(convert_dict)
 
-df18 = pd.read_csv('/Users/dj/Python - UvA/DSP/data_2018.csv', index_col=0) 
-df19 = pd.read_csv('/Users/dj/Python - UvA/DSP/data_2019.csv', index_col=0) 
-df20 = pd.read_csv('/Users/dj/Python - UvA/DSP/data_2020.csv', index_col=0) 
-df21 = pd.read_csv('/Users/dj/Python - UvA/DSP/data_2021.csv', index_col=0) 
+d = [df18, df19, df20, df21]
+
+for i in d:
+    test_list = []
+    for j in i['lemm']:
+        test_list.append(j.split())
+    
+    i['lemm_tok'] = test_list
+
+print(df18.shape)
+print(df19.shape)
+print(df20.shape)
+print(df21.shape)
+
+tfidf18 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/topidfs_2018.csv'), index_col=0) 
+tfidf19 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/topidfs_2019.csv'), index_col=0) 
+tfidf20 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/topidfs_2020.csv'), index_col=0) 
+tfidf21 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/topidfs_2021.csv'), index_col=0) 
+
+top_idfs = [tfidf18, tfidf19, tfidf20, tfidf21]
+
+i2w_df = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/i2words_df.csv'), index_col=0) 
 
 
 years = ['2018', '2019', '2020', '2021']
