@@ -32,6 +32,8 @@ def display_page(pathname):
         return global_sales.layout
     if pathname == '/apps/test':
         return test.layout
+    if pathname == '/apps/tf_idf_avg_plot':
+        return tf_idf_avg_plot.layout
     else:
         return "404 Page Error! Please choose a link"
 
