@@ -135,7 +135,7 @@ app.layout = html.Div([
             options=[{'label': x, 'value': x} for x in years]
         ), className='six columns'),
     ], className='row'),
-    
+
     dcc.Graph(id="line-chart"),
 ])
 
@@ -147,7 +147,6 @@ app.callback(
      Input(component_id='country-dropdown', component_property='value')]
 )
 def update_line_chart(continents):
-    mask = df.continent.isin(continents)
-    fig = px.line(df[mask], 
+    fig = px.line(df18, 
         x="year", y="lifeExp", color='country')
     return fig

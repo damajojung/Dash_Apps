@@ -8,7 +8,7 @@ from app import app
 from app import server
 
 # Connect to your app pages
-from apps import vgames, global_sales, test
+from apps import vgames, global_sales, test, tf_idf_avg_score
 
 
 app.layout = html.Div([
@@ -17,6 +17,7 @@ app.layout = html.Div([
         dcc.Link('Video Games  |', href='/apps/vgames'),
         dcc.Link('  Other Products  |', href='/apps/global_sales'),
         dcc.Link('  Test  |', href='/apps/test'),
+        dcc.Link('  Test  |', href='/apps/tf_idf_avg_plot')
     ], className="row"),
     html.Div(id='page-content', children=[])
 ])
