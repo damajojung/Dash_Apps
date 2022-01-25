@@ -36,6 +36,9 @@ import pyLDAvis
 import pyLDAvis.gensim_models
 import pyLDAvis.gensim_models as gensimvis
 
+import altair as alt
+import numpy as np
+
 # Plots
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
@@ -98,6 +101,16 @@ ds = [df18, df19, df20, df21]
 
 all_dats = pd.concat(ds)
 
+# Heatmap 
+
+tfidf18 = pd.read_csv('/Users/dj/Python - UvA/DSP/topidfs_2018.csv', index_col=0) 
+tfidf19 = pd.read_csv('/Users/dj/Python - UvA/DSP/topidfs_2019.csv', index_col=0) 
+tfidf20 = pd.read_csv('/Users/dj/Python - UvA/DSP/topidfs_2020.csv', index_col=0) 
+tfidf21 = pd.read_csv('/Users/dj/Python - UvA/DSP/topidfs_2021.csv', index_col=0) 
+
+top_idfs = [tfidf18, tfidf19, tfidf20, tfidf21]
+
+# TF-IDF Line Plot
 
 big_list = []
 for i in ds:
@@ -122,6 +135,80 @@ terms = list(np.unique(top_tfidf['term']))
 
 # ------------------------------- 
 
+
+layout = html.Div([
+    html.H1('TF-IDF Score of a certain word (2018 - 2021)', style={"textAlign": "center"}),
+
+    html.Div([
+        html.Div(dcc.Dropdown(
+            id='y2-dropdown', value='hennep', clearable=False,
+            options=[{'label': x, 'value': x} for x in terms]
+        ), className='six columns'),
+    ], className='row'),
+
+    dcc.Graph(id="line-chart"),
+])
+
+@app.callback(
+    Output("line-chart", "figure"), 
+    [Input("y2-dropdown", "value")])
+
+
+
+def update_line_chart(term):
+    fig = px.line(top_tfidf[top_tfidf['term'] == term],
+     x=[2018, 2019, 2020, 2021],
+      y="tfidf",
+       title='TF-IDF Scores of term: {}'.format(term)
+       )
+    return fig
+
+
+def update_line_chart(term):
+    
+    a = 0
+
+    # Terms in this list will get a red dot in the visualization
+    term_list = [term] # Highlight the words of interest
+
+    # adding a little randomness to break ties in term ranking
+    top_tfidf_plusRand = top_idfs[a].copy()
+    top_tfidf_plusRand = top_tfidf_plusRand.iloc[:300,]
+    top_tfidf_plusRand['tfidf'] = top_tfidf_plusRand['tfidf'] + np.random.rand(top_tfidf_plusRand.shape[0])*0.0001
+
+    # base for all visualizations, with rank calculation
+    base = alt.Chart(top_tfidf_plusRand).encode(
+        x = 'rank:O',
+        y = 'document:N'
+    ).transform_window(
+        rank = "rank()",
+        sort = [alt.SortField("tfidf", order="descending")],
+        groupby = ["document"],
+    )
+
+    # heatmap specification
+    heatmap = base.mark_rect().encode(
+        color = 'tfidf:Q'
+    )
+
+    # red circle over terms in above list
+    circle = base.mark_circle(size=100).encode(
+        color = alt.condition(
+            alt.FieldOneOfPredicate(field='term', oneOf=term_list),
+            alt.value('red'),
+            alt.value('#FFFFFF00')        
+        )
+    )
+
+    # text labels, white for darker heatmap colors
+    text = base.mark_text(baseline='middle').encode(
+        text = 'term:N',
+        color = alt.condition(alt.datum.tfidf >= 0.23, alt.value('white'), alt.value('black'))
+    )
+
+    # display the three superimposed visualizations
+    fig  =(heatmap + circle + text).properties(width = 1200)
+    return fig
 
 
 
