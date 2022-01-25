@@ -8,14 +8,12 @@ from app import app
 from app import server
 
 # Connect to your app pages
-from apps import vgames, global_sales, test, tf_idf_avg_plot
+from apps import test, tf_idf_avg_plot
 
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div([
-        dcc.Link('Video Games  |', href='/apps/vgames'),
-        dcc.Link('  Other Products  |', href='/apps/global_sales'),
         dcc.Link('  Test  |', href='/apps/test'),
         dcc.Link('  TF.IDF LinePlot  |', href='/apps/tf_idf_avg_plot')
     ], className="row"),
@@ -27,10 +25,6 @@ app.layout = html.Div([
               [Input('url', 'pathname')])
 
 def display_page(pathname):
-    if pathname == '/apps/vgames':
-        return vgames.layout
-    if pathname == '/apps/global_sales':
-        return global_sales.layout
     if pathname == '/apps/test':
         return test.layout
     if pathname == '/apps/tf_idf_avg_plot':

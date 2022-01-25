@@ -118,7 +118,7 @@ years = ('2018', '2019', '2020', '2021')
 term = 'minderjarig'
 
 values = top_tfidf['tfidf'][top_tfidf['term'] == term]
-terms = list(top_tfidf['term'])
+terms = list(np.unique(top_tfidf['term']))
 
 # ------------------------------------
 
@@ -142,7 +142,7 @@ def update_line_chart(term):
     fig = px.line(top_tfidf[top_tfidf['term'] == term],
      x=[2018, 2019, 2020, 2021],
       y="tfidf",
-       title='TF-IDF Scores of term: {}'.format(term),
+       title='TF-IDF Scores of term: {}'.format(term)
        )
     return fig
 
