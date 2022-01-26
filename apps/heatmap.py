@@ -7,6 +7,7 @@ import pandas as pd
 import pathlib
 from app import app
 import dash_table
+import io
 
 
 # --------------------- Packages
@@ -146,22 +147,15 @@ layout = html.Div([
         ), className='six columns'),
     ], className='row'),
 
-    dcc.Graph(id="line-chart"),
+        html.Iframe(
+        id='plot',
+        sandbox='allow-scripts',
+    ),
 ])
 
 @app.callback(
-    Output("line-chart", "figure"), 
+    Output("plot", "srcDoc"), 
     [Input("y2-dropdown", "value")])
-
-
-
-def update_line_chart(term):
-    fig = px.line(top_tfidf[top_tfidf['term'] == term],
-     x=[2018, 2019, 2020, 2021],
-      y="tfidf",
-       title='TF-IDF Scores of term: {}'.format(term)
-       )
-    return fig
 
 
 def update_line_chart(term):
@@ -207,8 +201,12 @@ def update_line_chart(term):
     )
 
     # display the three superimposed visualizations
-    fig  =(heatmap + circle + text).properties(width = 1200)
-    return fig
+    fig  = (heatmap + circle + text) #.properties(width = 1200)
+
+    #fig_html = io.StringIO()
+    #fig.save(fig_html, 'html')
+
+    return fig #.getvalue()
 
 
 
