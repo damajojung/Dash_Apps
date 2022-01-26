@@ -72,83 +72,13 @@ stop_words.extend(['tenlastelegging', 'hof', 'althans', 'tenlastegelegd', 'naan'
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../datasets").resolve()
 
-# owner: shivp Kaggle. Source: https://data.mendeley.com/datasets
-# dataset was modified. Original data: https://www.kaggle.com/shivkp/customer-behaviour
-
-df18 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/data_2018.csv'), index_col=0) 
-df19 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/data_2019.csv'), index_col=0) 
-df20 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/data_2020.csv'), index_col=0) 
-df21 = pd.read_csv(DATA_PATH.joinpath('/Users/dj/Python - UvA/DSP/data_2021.csv'), index_col=0) 
-
-convert_dict = {'lemm': str,
-                'year': str}
-  
-df18 = df18.astype(convert_dict)
-df19 = df19.astype(convert_dict)
-df20 = df20.astype(convert_dict)
-df21 = df21.astype(convert_dict)
-
-d = [df18, df19, df20, df21]
-
-for i in d:
-    test_list = []
-    for j in i['lemm']:
-        test_list.append(j.split())
-    
-    i['lemm_tok'] = test_list
-
-ds = [df18, df19, df20, df21]
-
-all_dats = pd.concat(ds)
-
-
-big_list = []
-for i in ds:
-    flat_list = " "
-    # iterating over the data
-    for item in i['lemm']:
-        flat_list = flat_list + " " + item
-    big_list.append(flat_list)
-
-tfidf_vectorizer = TfidfVectorizer(input=big_list, stop_words=stop_words)
-tfidf_vector = tfidf_vectorizer.fit_transform(big_list)
-tfidf_df = pd.DataFrame(tfidf_vector.toarray(), columns=tfidf_vectorizer.get_feature_names())
-tfidf_df = tfidf_df.stack().reset_index()
-tfidf_df = tfidf_df.rename(columns={0:'tfidf', 'level_0': 'document','level_1': 'term', 'level_2': 'term'})
-top_tfidf = tfidf_df.sort_values(by=['document','tfidf'], ascending=[True,False]) # .groupby(['document']).head(5)
-
-years = ('2018', '2019', '2020', '2021')
-term = 'minderjarig'
-
-values = top_tfidf['tfidf'][top_tfidf['term'] == term]
-terms = list(np.unique(top_tfidf['term']))
-
-# ------------------
-
 
 
 layout = html.Div([
-    html.H1('TF-IDF Heatmap of Documents & Terms', style={"textAlign": "center"}),
-    html.H2('Please select or search for a certain term', style={"textAlign": "left"}),
-
-    html.Div([
-        html.Div(dcc.Dropdown(
-            id='y2-dropdown', value='hennep', clearable=False,
-            options=[{'label': x, 'value': x} for x in terms]
-        ), className='six columns'),
-    ], className='row'),
-
+    html.H1('LDA Visualisation Tool', style={"textAlign": "center"}),
         html.Iframe(src=app.get_asset_url('lda.html'),
-                                            style=dict(position="absolute", left="0", top="0", width="100%", height="100%"))
+                                            style=dict(position="absolute", left="50", top="100", width="100%", height="100%"))
 ])
-
-#@app.callback(
-#    dash.dependencies.Output("plot", "srcDoc"), 
-#    [dash.dependencies.Input("y2-dropdown", "value")])
-
-
-
-
 
 
 
