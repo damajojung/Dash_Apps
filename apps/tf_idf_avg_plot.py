@@ -124,6 +124,7 @@ terms = list(np.unique(top_tfidf['term']))
 
 layout = html.Div([
     html.H1('TF-IDF Score of a certain word (2018 - 2021)', style={"textAlign": "center"}),
+    html.H2('Please select or search for a certain term', style={"textAlign": "left"}),
 
     html.Div([
         html.Div(dcc.Dropdown(
