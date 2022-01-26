@@ -8,7 +8,7 @@ from app import app
 from app import server
 
 # Connect to your app pages
-from apps import test, tf_idf_avg_plot , heatmap
+from apps import test, tf_idf_avg_plot , heatmap, LDA_Plot
 
 
 app.layout = html.Div([
@@ -16,7 +16,8 @@ app.layout = html.Div([
     html.Div([
         dcc.Link('  Test  |', href='/apps/test'),
         dcc.Link('  TF.IDF LinePlot  |', href='/apps/tf_idf_avg_plot'),
-        dcc.Link('  HEATMAP  |', href='/apps/heatmap')
+        dcc.Link('  HEATMAP  |', href='/apps/heatmap'),
+        dcc.Link('  LDA Plot  |', href='/apps/LDA_Plot')
     ], className="row"),
     html.Div(id='page-content', children=[])
 ])
@@ -32,6 +33,8 @@ def display_page(pathname):
         return tf_idf_avg_plot.layout
     if pathname == '/apps/heatmap':
         return heatmap.layout
+    if pathname == '/apps/LDA_Plot':
+        return LDA_Plot.layout
     else:
         return "Please choose a link"
 
