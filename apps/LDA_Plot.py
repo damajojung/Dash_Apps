@@ -1,13 +1,15 @@
 
-
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.express as px
+import dash
+import sqlalchemy
 import pandas as pd
 import pathlib
 from app import app
-import dash_table
+import io
+import altair as alt
 
 
 # --------------------- Packages
@@ -122,6 +124,30 @@ values = top_tfidf['tfidf'][top_tfidf['term'] == term]
 terms = list(np.unique(top_tfidf['term']))
 
 # ------------------
+
+
+
+layout = html.Div([
+    html.H1('TF-IDF Heatmap of Documents & Terms', style={"textAlign": "center"}),
+    html.H2('Please select or search for a certain term', style={"textAlign": "left"}),
+
+    html.Div([
+        html.Div(dcc.Dropdown(
+            id='y2-dropdown', value='hennep', clearable=False,
+            options=[{'label': x, 'value': x} for x in terms]
+        ), className='six columns'),
+    ], className='row'),
+
+        html.Iframe(src=app.get_asset_url('lda.html'),
+                                            style=dict(position="absolute", left="0", top="0", width="100%", height="100%"))
+])
+
+#@app.callback(
+#    dash.dependencies.Output("plot", "srcDoc"), 
+#    [dash.dependencies.Input("y2-dropdown", "value")])
+
+
+
 
 
 
