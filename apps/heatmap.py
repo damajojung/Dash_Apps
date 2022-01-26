@@ -3,10 +3,11 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.express as px
+import dash
+import sqlalchemy
 import pandas as pd
 import pathlib
 from app import app
-import dash_table
 import io
 
 
@@ -156,13 +157,15 @@ layout = html.Div([
 ])
 
 @app.callback(
-    Output("plot", "srcDoc"), 
-    [Input("y2-dropdown", "value")])
+    dash.dependencies.Output("plot", "srcDoc"), 
+    [dash.dependencies.Input("y2-dropdown", "value")])
 
 
 def update_line_chart(term):
     
     a = 0
+
+    brush = alt.selection_interval()
 
     # Terms in this list will get a red dot in the visualization
     term_list = [term] # Highlight the words of interest
@@ -209,8 +212,9 @@ def update_line_chart(term):
     fig  = (heatmap + circle + text) .properties(width = 1200)
 
     fig_html = io.StringIO()
-    #fig.save(fig_html, 'html')
+    fig.save(fig_html, 'html')
     print("Hello 2", a)
+    print(type(fig_html))
 
     return fig_html.getvalue()
 
