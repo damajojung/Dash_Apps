@@ -76,7 +76,7 @@ DATA_PATH = PATH.joinpath("../datasets").resolve()
 
 
 layout = html.Div([
-    html.H1('LDA Visualisation Tool', style={"textAlign": "center"}),
+    html.H1('Scattertext', style={"textAlign": "center"}),
         html.Iframe(src=app.get_asset_url('result_scatter_scale.html'),
                                             style=dict(position="absolute", left="50", top="100", width="100%", height="100%"))
 ])
