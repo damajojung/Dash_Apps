@@ -149,6 +149,8 @@ layout = html.Div([
 
         html.Iframe(
         id='plot',
+        height = '1000',
+        width = '1500',
         sandbox='allow-scripts',
     ),
 ])
@@ -167,8 +169,10 @@ def update_line_chart(term):
 
     # adding a little randomness to break ties in term ranking
     top_tfidf_plusRand = top_idfs[a].copy()
-    top_tfidf_plusRand = top_tfidf_plusRand.iloc[:300,]
+    top_tfidf_plusRand = top_tfidf_plusRand.iloc[:100,]
     top_tfidf_plusRand['tfidf'] = top_tfidf_plusRand['tfidf'] + np.random.rand(top_tfidf_plusRand.shape[0])*0.0001
+
+    print("Hello")
 
     # base for all visualizations, with rank calculation
     base = alt.Chart(top_tfidf_plusRand).encode(
@@ -199,14 +203,16 @@ def update_line_chart(term):
         text = 'term:N',
         color = alt.condition(alt.datum.tfidf >= 0.23, alt.value('white'), alt.value('black'))
     )
+    print("Hello 1", a)
 
     # display the three superimposed visualizations
-    fig  = (heatmap + circle + text) #.properties(width = 1200)
+    fig  = (heatmap + circle + text) .properties(width = 1200)
 
-    #fig_html = io.StringIO()
+    fig_html = io.StringIO()
     #fig.save(fig_html, 'html')
+    print("Hello 2", a)
 
-    return fig #.getvalue()
+    return fig_html.getvalue()
 
 
 
