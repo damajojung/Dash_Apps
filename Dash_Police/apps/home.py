@@ -21,12 +21,13 @@ layout = html.Div([
 
         dbc.Row([
             dbc.Col(html.P(children='The aim of this project is to provide an analysis tool to extract the Modus Operandi of criminals. '
-                                     'Refer to the About page for more information about the project.')
+                                     'On the top right corner one can find the several techniques that are used in this project. '
+                                     'Feel free to play around and explore the data. Please note that SCATTERTEXT takes a second to load. ')
                         , className="mb-5"),
         ]),
 
         dbc.Row([
-            dbc.Col(dbc.Card(children=[html.H3(children='Access the code and datasets.',
+            dbc.Col(dbc.Card(children=[html.H3(children='Code and datasets.',
                                                className="text-center"),
                                        dbc.Button("GitHub",
                                                   href="https://github.com/Lizzydrb/DSP_Police_Academy",
@@ -38,8 +39,8 @@ layout = html.Div([
 
             dbc.Col(dbc.Card(children=[html.H3(children='Read our final report.',
                                                className="text-center"),
-                                       dbc.Button("Title...",
-                                                  href="https://medium.com/@meredithwan",
+                                       dbc.Button("Report",
+                                                  href="https://en.wikipedia.org/wiki/Modus_operandi",
                                                   color="primary",
                                                   className="d-grid gap-2 col-6 mx-auto"),
 
@@ -49,7 +50,7 @@ layout = html.Div([
         ], className="mb-5"),
 
         html.A("Special thanks to ....",
-               href="https://www.flaticon.com/free-icon/coronavirus_2913604")
+               href="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
     ])
 

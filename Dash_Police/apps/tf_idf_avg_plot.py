@@ -6,7 +6,9 @@ import plotly.express as px
 import pandas as pd
 import pathlib
 from app import app
-import dash_table
+import plotly.io as pio
+
+pio.templates.default = "presentation"
 
 
 # --------------------- Packages
@@ -128,7 +130,7 @@ layout = html.Div([
 
     html.Div([
         html.Div(dcc.Dropdown(
-            id='y2-dropdown', value='auto', clearable=False,
+            id='y2-dropdown', value='hennep', clearable=False,
             options=[{'label': x, 'value': x} for x in terms]
         ), className='six columns'),
     ], className='row'),
@@ -141,10 +143,9 @@ layout = html.Div([
     [Input("y2-dropdown", "value")])
 def update_line_chart(term):
     fig = px.line(top_tfidf[top_tfidf['term'] == term],
-     x=[2018, 2019, 2020, 2021],
-      y="tfidf",
-       title='TF-IDF Scores of term: {}'.format(term)
-       )
+    x=[2018, 2019, 2020, 2021],
+    y="tfidf",
+    title='TF-IDF Scores of term: {}'.format(term), height = 700)
+    fig.update_xaxes(type='category')
     return fig
-
 
